@@ -1,0 +1,23 @@
+[
+    {
+      "file": "id-file-1",
+      "group": "g-1",
+      "project": "p-1"
+    },
+    {
+      "file": "id-file-2",
+      "group": "g-1",
+      "project": "p-1"
+    },
+    {
+      "file": "id-file-3",
+      "group": "g-2",
+      "project": "p-1"
+    },
+    {
+      "file": "id-file-4",
+      "group": "g-2",
+      "project": "p-1"
+    }
+]
+
