@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Rao Mengnan
@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class AOVColoringTest {
 
     private String testParam = getClass().getResource("/input-params-1.json").getPath();
-    private AdjListGraph graph;
+    private Graph graph;
     private AOVColoring aov;
 
     @BeforeEach
@@ -35,21 +35,21 @@ class AOVColoringTest {
     void getAccessibleVertices() {
         List<Vertex> vertices = aov.getPassableVertices();
         assertEquals(4, vertices.size());
-        for (Vertex v: vertices) assertEquals("download", v.getAction());
+        for (Vertex v : vertices) assertEquals("download", v.getAction());
     }
 
     @Test
     void markVertex() {
         List<Vertex> vertices = aov.getPassableVertices();
         assertEquals(4, vertices.size());
-        for (Vertex v: vertices) assertEquals("download", v.getAction());
+        for (Vertex v : vertices) assertEquals("download", v.getAction());
 
         // g-1: download passed => g-1 mapping node available
         aov.markVertex(0, AOVColorEnum.PASSED);
         aov.markVertex(1, AOVColorEnum.PASSED);
         vertices = aov.getPassableVertices();
         assertEquals(5, vertices.size());
-        for (Vertex v: vertices) {
+        for (Vertex v : vertices) {
             if (v.getIndex() == 4) assertEquals("mapping", v.getAction());
             else assertEquals("download", v.getAction());
         }
@@ -59,7 +59,7 @@ class AOVColoringTest {
         aov.markVertex(3, AOVColorEnum.PASSED);
         vertices = aov.getPassableVertices();
         assertEquals(6, vertices.size());
-        for (Vertex v: vertices) {
+        for (Vertex v : vertices) {
             if (v.getIndex() == 4 || v.getIndex() == 5) assertEquals("mapping", v.getAction());
             else assertEquals("download", v.getAction());
         }
@@ -70,7 +70,7 @@ class AOVColoringTest {
         vertices = aov.getPassableVertices();
         assertEquals(7, vertices.size());
 
-        for (Vertex v: vertices) {
+        for (Vertex v : vertices) {
             if (v.getIndex() == 4 || v.getIndex() == 5) assertEquals("mapping", v.getAction());
             else if (v.getIndex() == 6) assertEquals("analysis", v.getAction());
             else assertEquals("download", v.getAction());
@@ -84,7 +84,7 @@ class AOVColoringTest {
         for (int i = 4; i < 7; i++) assertEquals(AOVColorEnum.BLOCKING, colorMap.get(i));
     }
 
-    AdjListGraph getDAG() throws IOException {
+    Graph getDAG() throws IOException {
         List<InputFile> inputFiles;
         ScopeMapper mapper = new ScopeMapper();
         Graphs graphs = new Graphs(mapper);

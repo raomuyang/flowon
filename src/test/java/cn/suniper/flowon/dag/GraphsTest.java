@@ -75,7 +75,7 @@ class GraphsTest {
 
         assertEquals(index, vertices.size());
 
-        AdjListGraph graph = graphs.vertices2DAG(vertices);
+        Graph graph = graphs.vertices2DAG(vertices);
         for (int i = 0; i < 4; i++) {
             assertEquals(0, graph.getVertexInDegree()[i]);
         }
