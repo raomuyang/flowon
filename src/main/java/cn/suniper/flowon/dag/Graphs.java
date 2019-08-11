@@ -16,11 +16,11 @@ public class Graphs {
         this.scopes = scopes;
     }
 
-    public AdjListGraph vertices2DAG(List<Vertex> vertexNodes) {
+    public Graph vertices2DAG(List<Vertex> vertexNodes) {
         return vertices2DAG(vertexNodes, true);
     }
 
-    public AdjListGraph vertices2DAG(List<Vertex> vertexNodes, boolean sortedByIndex) {
+    public Graph vertices2DAG(List<Vertex> vertexNodes, boolean sortedByIndex) {
         if (scopes == null) {
             throw new IllegalStateException("scopes kit was not set");
         }

@@ -7,7 +7,7 @@ import java.util.List;
  * @author Rao Mengnan
  * on 2019-08-07.
  */
-public class AdjListGraph {
+class AdjListGraph implements Graph {
     private List<Vertex> vertices;
     private int[] topology;
     private int[] vertexInDegree;
@@ -18,6 +18,7 @@ public class AdjListGraph {
         this.vertexInDegree = vertexInDegree;
     }
 
+    @Override
     public List<Vertex> getVertices() {
         return vertices;
     }
@@ -26,6 +27,7 @@ public class AdjListGraph {
         this.vertices = vertices;
     }
 
+    @Override
     public int[] getTopology() {
         return topology;
     }
@@ -34,6 +36,7 @@ public class AdjListGraph {
         this.topology = topology;
     }
 
+    @Override
     public int[] getVertexInDegree() {
         return vertexInDegree;
     }
