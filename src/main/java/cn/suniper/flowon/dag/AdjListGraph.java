@@ -12,7 +12,7 @@ class AdjListGraph implements Graph {
     private int[] topology;
     private int[] vertexInDegree;
 
-    public AdjListGraph(List<Vertex> vertices, int[] topology, int[] vertexInDegree) {
+    AdjListGraph(List<Vertex> vertices, int[] topology, int[] vertexInDegree) {
         this.vertices = vertices;
         this.topology = topology;
         this.vertexInDegree = vertexInDegree;
