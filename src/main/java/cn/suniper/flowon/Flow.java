@@ -1,10 +1,11 @@
 package cn.suniper.flowon;
 
-import cn.suniper.flowon.dag.AdjListGraph;
+import cn.suniper.flowon.dag.Graph;
 import cn.suniper.flowon.dag.Graphs;
 import cn.suniper.flowon.dag.Scopes;
 import cn.suniper.flowon.dag.Vertex;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,14 +30,28 @@ public class Flow<T> {
         this.graphs = new Graphs(this.scopeMapper);
     }
 
-    public AdjListGraph getDAG(String confContent, T params) {
+    public Graph getDAG(File configFile, T params) {
+        List<NodeRef> nodeRefs = parser.parseFile(configFile);
+        return getGraph(params, nodeRefs);
+    }
+
+    public Graph getDAG(String confContent, T params) {
         List<NodeRef> nodeRefs = parser.parseString(confContent);
+        return getGraph(params, nodeRefs);
+    }
+
+    private Graph getGraph(T params, List<NodeRef> nodeRefs) {
         List<Vertex> vertices =  nodeRefs.stream()
-                .map(nodeRef -> this.mapToVertices(nodeRef, params))
-                .reduce((list, newList) -> {
-                    list.addAll(newList);
+                .map(nodeRefList -> this.mapToVertices(nodeRefList, params))
+                .reduce((list, newIncrease) -> {
+                    list.addAll(newIncrease);
                     return list;
-                }).orElse(new ArrayList<>());
+                })
+                .orElse(new ArrayList<>());
+        for (int index = 0; index < vertices.size(); index++) {
+            // reset index
+            vertices.get(index).setIndex(index);
+        }
         return this.graphs.vertices2DAG(vertices);
     }
 
