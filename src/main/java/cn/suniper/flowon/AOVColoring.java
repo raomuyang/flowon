@@ -1,7 +1,7 @@
 package cn.suniper.flowon;
 
-import cn.suniper.flowon.dag.AdjListGraph;
 import cn.suniper.flowon.dag.ArcNode;
+import cn.suniper.flowon.dag.Graph;
 import cn.suniper.flowon.dag.Vertex;
 
 import java.util.ArrayList;
@@ -15,10 +15,10 @@ import java.util.concurrent.ConcurrentHashMap;
  * on 2019-08-08.
  */
 public class AOVColoring {
-    private AdjListGraph graph;
+    private Graph graph;
     private Map<Integer, AOVColorEnum> keepColorMap;
 
-    public AOVColoring(AdjListGraph graph) {
+    public AOVColoring(Graph graph) {
         this.graph = graph;
         keepColorMap = new ConcurrentHashMap<>();
 
