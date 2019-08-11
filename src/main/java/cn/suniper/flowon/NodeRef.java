@@ -3,6 +3,7 @@ package cn.suniper.flowon;
 import com.typesafe.config.Optional;
 
 /**
+ * Mapping the configuration file of workflow
  * @author Rao Mengnan
  * on 2019-08-08.
  */
