@@ -41,6 +41,10 @@ public class Flow<T> {
         return getGraph(params, nodeRefConf);
     }
 
+    public Graph getDAG(Map<String, NodeRef> nodeRefConf, T params) {
+        return getGraph(params, nodeRefConf);
+    }
+
     private Graph getGraph(T params, Map<String, NodeRef> nodeRefs) {
         List<Vertex> vertices =  nodeRefs.values().stream()
                 .map(nodeRefList -> this.mapToVertices(nodeRefList, params))
