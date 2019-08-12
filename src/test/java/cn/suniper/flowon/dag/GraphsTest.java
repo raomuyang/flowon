@@ -57,7 +57,7 @@ class GraphsTest {
             v.setScope("group");
             v.setAction("mapping");
             v.setIndex(index++);
-            v.setDependencies("download");
+            v.setDependenciesNodeName("download");
             v.setBindDataURI(uri);
             vertices.add(v);
         }
@@ -67,7 +67,7 @@ class GraphsTest {
             Vertex v = new Vertex();
             v.setScope("project");
             v.setAction("analysis");
-            v.setDependencies("mapping");
+            v.setDependenciesNodeName("mapping");
             v.setIndex(index++);
             v.setBindDataURI(uri);
             vertices.add(v);
@@ -98,7 +98,7 @@ class GraphsTest {
             Vertex v = new Vertex();
             v.setScope("file");
             v.setAction("download");
-            v.setDependencies("analysis");
+            v.setDependenciesNodeName("analysis");
             v.setIndex(index++);
             v.setBindDataURI(uri);
             vertices.add(v);
@@ -110,7 +110,7 @@ class GraphsTest {
             v.setScope("group");
             v.setAction("mapping");
             v.setIndex(index++);
-            v.setDependencies("download");
+            v.setDependenciesNodeName("download");
             v.setBindDataURI(uri);
             vertices.add(v);
         }
@@ -120,7 +120,7 @@ class GraphsTest {
             Vertex v = new Vertex();
             v.setScope("project");
             v.setAction("analysis");
-            v.setDependencies("mapping");
+            v.setDependenciesNodeName("mapping");
             v.setIndex(index++);
             v.setBindDataURI(uri);
             vertices.add(v);
@@ -133,7 +133,7 @@ class GraphsTest {
             }
 
             @Override
-            public boolean isInclude(String dataURI, String subDataURI) {
+            public boolean isInclude(String dataURI, String subDataURI, String dependenciesNodeName) {
                 return true;
             }
         });

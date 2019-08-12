@@ -10,7 +10,7 @@ public class Vertex {
     private String action;
     // scope字段描述了bindDataURI可以绑定数据的最大集合
     private String scope;
-    private String dependencies;
+    private String dependenciesNodeName;
     private String bindDataURI;
     private ArcNode firstArc;
 
@@ -46,12 +46,12 @@ public class Vertex {
         this.scope = scope;
     }
 
-    public String getDependencies() {
-        return dependencies;
+    public String getDependenciesNodeName() {
+        return dependenciesNodeName;
     }
 
-    public void setDependencies(String dependencies) {
-        this.dependencies = dependencies;
+    public void setDependenciesNodeName(String dependenciesNodeName) {
+        this.dependenciesNodeName = dependenciesNodeName;
     }
 
     public String getBindDataURI() {
@@ -68,7 +68,7 @@ public class Vertex {
                 "index=" + index +
                 ", action='" + action + '\'' +
                 ", scope='" + scope + '\'' +
-                ", dependencies='" + dependencies + '\'' +
+                ", dependencies='" + dependenciesNodeName + '\'' +
                 ", bindDataURI='" + bindDataURI + '\'' +
                 ", firstArc=" + firstArc +
                 '}';

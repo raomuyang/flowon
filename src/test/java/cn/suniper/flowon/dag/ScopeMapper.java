@@ -45,7 +45,7 @@ public class ScopeMapper implements Scopes<List<InputFile>> {
     }
 
     @Override
-    public boolean isInclude(String dataURI, String subDataURI) {
+    public boolean isInclude(String dataURI, String subDataURI, String dependenciesNodeName) {
         if (subDataURI == null) return false;
         if (dataURI.equals(subDataURI)) return false;
 

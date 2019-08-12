@@ -56,5 +56,5 @@ public interface Scopes<T> {
      * @param subDataURI the URI which might the subset of parameter {@code dataURI}
      * @return true if {@code subDataURI} is the {@code non-empty proper subset} of {@code dataURI} else false
      */
-    boolean isInclude(String dataURI, String subDataURI);
+    boolean isInclude(String dataURI, String subDataURI, String dependenciesNodeName);
 }

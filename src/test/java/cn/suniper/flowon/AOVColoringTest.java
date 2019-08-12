@@ -114,7 +114,7 @@ class AOVColoringTest {
             v.setScope("group");
             v.setAction("mapping");
             v.setIndex(index++);
-            v.setDependencies("download");
+            v.setDependenciesNodeName("download");
             v.setBindDataURI(uri);
             vertices.add(v);
         }
@@ -124,7 +124,7 @@ class AOVColoringTest {
             Vertex v = new Vertex();
             v.setScope("project");
             v.setAction("analysis");
-            v.setDependencies("mapping");
+            v.setDependenciesNodeName("mapping");
             v.setIndex(index++);
             v.setBindDataURI(uri);
             vertices.add(v);

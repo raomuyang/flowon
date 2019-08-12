@@ -62,7 +62,7 @@ public class Flow<T> {
                     Vertex v = new Vertex();
                     v.setBindDataURI(uri);
                     v.setAction(nodeRef.getName());
-                    v.setDependencies(nodeRef.getDependencies());
+                    v.setDependenciesNodeName(nodeRef.getDependencies());
                     v.setScope(nodeRef.getScope());
                     return v;
                 })
