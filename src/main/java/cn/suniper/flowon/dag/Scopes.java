@@ -51,10 +51,10 @@ public interface Scopes<T> {
     List<String> map(T params, String scope);
 
     /**
-     * Determine whether {@code subsetDataURI} is an item of the set which the {@code dataURI} representative.
+     * Determine whether {@code subDataURI} is an item of the set which the {@code dataURI} representative.
      * @param dataURI the data URI which representative of a set of resources
-     * @param subsetDataURI the URI which might the subset of parameter {@code dataURI}
-     * @return true if {@code subsetDataURI} is the {@code non-empty proper subset} of {@code dataURI} else false
+     * @param subDataURI the URI which might the subset of parameter {@code dataURI}
+     * @return true if {@code subDataURI} is the {@code non-empty proper subset} of {@code dataURI} else false
      */
-    boolean isInclude(String dataURI, String subsetDataURI);
+    boolean isInclude(String dataURI, String subDataURI);
 }

@@ -133,7 +133,7 @@ class GraphsTest {
             }
 
             @Override
-            public boolean isInclude(String dataURI, String subsetDataURI) {
+            public boolean isInclude(String dataURI, String subDataURI) {
                 return true;
             }
         });

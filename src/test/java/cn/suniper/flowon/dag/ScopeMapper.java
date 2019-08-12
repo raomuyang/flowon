@@ -45,9 +45,9 @@ public class ScopeMapper implements Scopes<List<InputFile>> {
     }
 
     @Override
-    public boolean isInclude(String dataURI, String subsetDataURI) {
-        if (subsetDataURI == null) return false;
-        if (dataURI.equals(subsetDataURI)) return false;
+    public boolean isInclude(String dataURI, String subDataURI) {
+        if (subDataURI == null) return false;
+        if (dataURI.equals(subDataURI)) return false;
 
         String scope = dataURI.split(":")[0];
         String subset;
@@ -61,11 +61,11 @@ public class ScopeMapper implements Scopes<List<InputFile>> {
             default:
                 subset = null;
         }
-        if (subset == null || !subsetDataURI.startsWith(subset)) return false;
+        if (subset == null || !subDataURI.startsWith(subset)) return false;
 
 
         String[] sp1 = dataURI.substring(scope.length()).split("/");
-        String[] sp2 = subsetDataURI.substring(subset.length()).split("/");
+        String[] sp2 = subDataURI.substring(subset.length()).split("/");
         for (int i = 0; i < sp1.length; i++) {
             if (!sp1[i].equals(sp2[i])) return false;
         }
