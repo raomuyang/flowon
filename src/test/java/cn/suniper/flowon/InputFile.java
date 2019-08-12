@@ -1,4 +1,4 @@
-package cn.suniper.flowon.dag;
+package cn.suniper.flowon;
 
 /**
  * @author Rao Mengnan
