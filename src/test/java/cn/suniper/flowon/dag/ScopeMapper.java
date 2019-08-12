@@ -45,7 +45,7 @@ public class ScopeMapper implements Scopes<List<InputFile>> {
     }
 
     @Override
-    public boolean isSubset(String dataURI, String subsetDataURI) {
+    public boolean isInclude(String dataURI, String subsetDataURI) {
         if (subsetDataURI == null) return false;
         if (dataURI.equals(subsetDataURI)) return false;
 

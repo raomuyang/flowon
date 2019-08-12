@@ -6,7 +6,7 @@ import java.util.List;
  * The Scopes interface is in order to make the way to create a DAG more flexible,
  * through the {@link Scopes#map(Object, String)}, you can define a way to generate a
  * series vertices of DAG from input parameters,
- * and the {@link Scopes#isSubset(String, String)} let you can determines how to
+ * and the {@link Scopes#isInclude(String, String)} let you can determines how to
  * describe the inclusion relationship of data URI
  *
  * @author Rao Mengnan
@@ -51,10 +51,10 @@ public interface Scopes<T> {
     List<String> map(T params, String scope);
 
     /**
-     * Determine whether {@code subsetDataURI} is a non-empty proper subset of {@code dataURI}
-     * @param dataURI the data URI which republic of a set of resources
+     * Determine whether {@code subsetDataURI} is an item of the set which the {@code dataURI} representative.
+     * @param dataURI the data URI which representative of a set of resources
      * @param subsetDataURI the URI which might the subset of parameter {@code dataURI}
      * @return true if {@code subsetDataURI} is the {@code non-empty proper subset} of {@code dataURI} else false
      */
-    boolean isSubset(String dataURI, String subsetDataURI);
+    boolean isInclude(String dataURI, String subsetDataURI);
 }

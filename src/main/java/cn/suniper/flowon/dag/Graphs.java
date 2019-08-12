@@ -35,7 +35,7 @@ public class Graphs {
 
                 // action: v2 dependency v1; resource: dataURI_v1 is subset of dataURI_v2
                 if (v1.getAction().equals(v2.getDependencies())
-                        && scopes.isSubset(v2.getBindDataURI(), v1.getBindDataURI())) {
+                        && scopes.isInclude(v2.getBindDataURI(), v1.getBindDataURI())) {
                     ArcNode arcV1ToV2 = new ArcNode(v2.getIndex(), null);
                     inDegree[v2.getIndex()]++;
                     if (arc == null) {
