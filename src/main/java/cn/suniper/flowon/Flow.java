@@ -8,6 +8,7 @@ import cn.suniper.flowon.dag.Vertex;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -31,17 +32,17 @@ public class Flow<T> {
     }
 
     public Graph getDAG(File configFile, T params) {
-        List<NodeRef> nodeRefs = parser.parseFile(configFile);
-        return getGraph(params, nodeRefs);
+        Map<String, NodeRef> nodeRefConf = parser.parseFile(configFile);
+        return getGraph(params, nodeRefConf);
     }
 
     public Graph getDAG(String confContent, T params) {
-        List<NodeRef> nodeRefs = parser.parseString(confContent);
-        return getGraph(params, nodeRefs);
+        Map<String, NodeRef> nodeRefConf = parser.parseString(confContent);
+        return getGraph(params, nodeRefConf);
     }
 
-    private Graph getGraph(T params, List<NodeRef> nodeRefs) {
-        List<Vertex> vertices =  nodeRefs.stream()
+    private Graph getGraph(T params, Map<String, NodeRef> nodeRefs) {
+        List<Vertex> vertices =  nodeRefs.values().stream()
                 .map(nodeRefList -> this.mapToVertices(nodeRefList, params))
                 .reduce((list, newIncrease) -> {
                     list.addAll(newIncrease);

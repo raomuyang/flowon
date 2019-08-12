@@ -7,8 +7,7 @@ import com.typesafe.config.ConfigParseOptions;
 import com.typesafe.config.ConfigValue;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -26,22 +25,22 @@ public class FlowParser {
         this.options = options;
     }
 
-    public List<NodeRef> parseFile(File conf) {
+    public Map<String, NodeRef> parseFile(File conf) {
         Config config = ConfigFactory.parseFile(conf, options);
         return getNodeRefs(config);
     }
-    public List<NodeRef> parseString(String conf) {
+    public Map<String, NodeRef> parseString(String conf) {
         Config config = ConfigFactory.parseString(conf, options);
         return getNodeRefs(config);
     }
 
-    private static List<NodeRef> getNodeRefs(Config config) {
-        List<NodeRef> nodeRefs = new ArrayList<>();
+    private static Map<String, NodeRef> getNodeRefs(Config config) {
+        Map<String, NodeRef> nodeRefConf = new HashMap<>();
         for (Map.Entry<String, ConfigValue> e: config.root().entrySet()) {
             NodeRef r = ConfigBeanFactory.create(config.getConfig(e.getKey()), NodeRef.class);
             r.setName(e.getKey());
-            nodeRefs.add(r);
+            nodeRefConf.put(e.getKey(), r);
         }
-        return nodeRefs;
+        return nodeRefConf;
     }
 }
