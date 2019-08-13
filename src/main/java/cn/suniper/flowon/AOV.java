@@ -14,11 +14,11 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author Rao Mengnan
  * on 2019-08-08.
  */
-public class AOVColoring {
+public class AOV {
     private Graph graph;
     private Map<Integer, AOVColorEnum> keepColorMap;
 
-    public AOVColoring(Graph graph) {
+    public AOV(Graph graph) {
         this.graph = graph;
         keepColorMap = new ConcurrentHashMap<>();
 
@@ -45,10 +45,12 @@ public class AOVColoring {
                     });
                     arc = arc.getNextArc();
                 }
+                continue;
             } else if (keepColorMap.get(index) == AOVColorEnum.AVAILABLE) {
                 passable.add(graph.getVertices().get(index));
                 continue;
             } else if (keepColorMap.get(index) == AOVColorEnum.BLOCKED) {
+                passable.add(graph.getVertices().get(index));
                 continue;
             }
 

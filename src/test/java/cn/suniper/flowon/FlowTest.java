@@ -40,7 +40,7 @@ class FlowTest {
         Scopes<List<InputFile>> scopes = new ScopeMapper();
         Flow<List<InputFile>> flow = new Flow<>(scopes);
         Graph graph = flow.getDAG(flowConfigFile, inputParameters);
-        AOVColoring aov = new AOVColoring(graph);
+        AOV aov = new AOV(graph);
         List<Vertex> passable = aov.getPassableVertices();
         assertEquals(4, passable.size());
         passable.forEach(v -> assertEquals("download", v.getAction()));

@@ -19,16 +19,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author Rao Mengnan
  * on 2019-08-11.
  */
-class AOVColoringTest {
+class AOVTest {
 
     private String testParam = getClass().getResource("/input-params-1.json").getPath();
-    private Graph graph;
-    private AOVColoring aov;
+    private AOV aov;
 
     @BeforeEach
     void before() throws IOException {
-        graph = getDAG();
-        aov = new AOVColoring(graph);
+        Graph graph = getDAG();
+        aov = new AOV(graph);
     }
 
     @Test
@@ -48,7 +47,7 @@ class AOVColoringTest {
         aov.markVertex(0, AOVColorEnum.PASSED);
         aov.markVertex(1, AOVColorEnum.PASSED);
         vertices = aov.getPassableVertices();
-        assertEquals(5, vertices.size());
+        assertEquals(3, vertices.size());
         for (Vertex v : vertices) {
             if (v.getIndex() == 4) assertEquals("mapping", v.getAction());
             else assertEquals("download", v.getAction());
@@ -58,22 +57,27 @@ class AOVColoringTest {
         aov.markVertex(2, AOVColorEnum.PASSED);
         aov.markVertex(3, AOVColorEnum.PASSED);
         vertices = aov.getPassableVertices();
-        assertEquals(6, vertices.size());
+        assertEquals(2, vertices.size());
         for (Vertex v : vertices) {
-            if (v.getIndex() == 4 || v.getIndex() == 5) assertEquals("mapping", v.getAction());
-            else assertEquals("download", v.getAction());
+            assertEquals("mapping", v.getAction());
         }
 
         // g-1 & g-2 mapping finished => p-1 analysis node available
         aov.markVertex(4, AOVColorEnum.PASSED);
         aov.markVertex(5, AOVColorEnum.PASSED);
         vertices = aov.getPassableVertices();
-        assertEquals(7, vertices.size());
+        assertEquals(1, vertices.size());
 
         for (Vertex v : vertices) {
-            if (v.getIndex() == 4 || v.getIndex() == 5) assertEquals("mapping", v.getAction());
-            else if (v.getIndex() == 6) assertEquals("analysis", v.getAction());
-            else assertEquals("download", v.getAction());
+            assertEquals("analysis", v.getAction());
+        }
+
+        // analysis blocking by mapping
+        aov.markVertex(5, AOVColorEnum.BLOCKED);
+        vertices = aov.getPassableVertices();
+        assertEquals(1, vertices.size());
+        for (Vertex v : vertices) {
+            assertEquals("mapping", v.getAction());
         }
     }
 
