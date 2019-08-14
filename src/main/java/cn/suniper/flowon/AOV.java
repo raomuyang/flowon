@@ -31,12 +31,25 @@ public class AOV {
         }
     }
 
+    /**
+     * Get the list of passable (accessible) vertices with excluding the passed vertices,
+     * note that the passable/passed vertices must be with 0 in degree
+     * @return list of {@link Vertex}
+     */
     public List<Vertex> getPassableVertices() {
         List<Vertex> passable = new ArrayList<>();
         Map<Integer, Integer> inDegreeReduce = new HashMap<>();
+        int[] vertexInitInDegree = this.graph.getVertexInDegree();
+
         // iterate by topology sorting
         for (Integer index: graph.getTopology()) {
+
+            int newInDegree = vertexInitInDegree[index] - inDegreeReduce.computeIfAbsent(index, k -> 0);
+            // the passable vertex must be with 0 in degree (after remove the passed vertex)
+            if (newInDegree != 0) continue;
+
             if (keepColorMap.get(index) == AOVColorEnum.PASSED) {
+
                 ArcNode arc = graph.getVertices().get(index).getFirstArc();
                 while (arc != null) {
                     inDegreeReduce.compute(arc.getAdjVex(), (key, old) -> {
@@ -53,8 +66,6 @@ public class AOV {
                 passable.add(graph.getVertices().get(index));
                 continue;
             }
-
-            int newInDegree = graph.getVertexInDegree()[index] - inDegreeReduce.computeIfAbsent(index, k -> 0);
             if (newInDegree == 0) passable.add(graph.getVertices().get(index));
 
         }
