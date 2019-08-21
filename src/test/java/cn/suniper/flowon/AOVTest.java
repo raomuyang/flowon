@@ -22,31 +22,31 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class AOVTest {
 
     private String testParam = getClass().getResource("/input-params-1.json").getPath();
-    private AOV aov;
+    private AOVNet aov;
 
     @BeforeEach
     void before() throws IOException {
         Graph graph = getDAG();
-        aov = new AOV(graph);
+        aov = new AOVNet(graph);
     }
 
     @Test
     void getAccessibleVertices() {
-        List<Vertex> vertices = aov.getPassableVertices();
+        List<Vertex> vertices = aov.getReachableVertices();
         assertEquals(4, vertices.size());
         for (Vertex v : vertices) assertEquals("download", v.getAction());
     }
 
     @Test
     void markVertex() {
-        List<Vertex> vertices = aov.getPassableVertices();
+        List<Vertex> vertices = aov.getReachableVertices();
         assertEquals(4, vertices.size());
         for (Vertex v : vertices) assertEquals("download", v.getAction());
 
         // g-1: download passed => g-1 mapping node available
-        aov.markVertex(0, AOVColorEnum.PASSED);
-        aov.markVertex(1, AOVColorEnum.PASSED);
-        vertices = aov.getPassableVertices();
+        aov.markVertex(0, VertexStatusEnum.PASSED);
+        aov.markVertex(1, VertexStatusEnum.PASSED);
+        vertices = aov.getReachableVertices();
         assertEquals(3, vertices.size());
         for (Vertex v : vertices) {
             if (v.getIndex() == 4) assertEquals("mapping", v.getAction());
@@ -54,18 +54,18 @@ class AOVTest {
         }
 
         // g-2: download passed => g-2 mapping node available
-        aov.markVertex(2, AOVColorEnum.PASSED);
-        aov.markVertex(3, AOVColorEnum.PASSED);
-        vertices = aov.getPassableVertices();
+        aov.markVertex(2, VertexStatusEnum.PASSED);
+        aov.markVertex(3, VertexStatusEnum.PASSED);
+        vertices = aov.getReachableVertices();
         assertEquals(2, vertices.size());
         for (Vertex v : vertices) {
             assertEquals("mapping", v.getAction());
         }
 
         // g-1 & g-2 mapping finished => p-1 analysis node available
-        aov.markVertex(4, AOVColorEnum.PASSED);
-        aov.markVertex(5, AOVColorEnum.PASSED);
-        vertices = aov.getPassableVertices();
+        aov.markVertex(4, VertexStatusEnum.PASSED);
+        aov.markVertex(5, VertexStatusEnum.PASSED);
+        vertices = aov.getReachableVertices();
         assertEquals(1, vertices.size());
 
         for (Vertex v : vertices) {
@@ -73,8 +73,8 @@ class AOVTest {
         }
 
         // analysis blocking by mapping
-        aov.markVertex(5, AOVColorEnum.BLOCKED);
-        vertices = aov.getPassableVertices();
+        aov.markVertex(5, VertexStatusEnum.BLOCKED);
+        vertices = aov.getReachableVertices();
         assertEquals(1, vertices.size());
         for (Vertex v : vertices) {
             assertEquals("mapping", v.getAction());
@@ -83,9 +83,9 @@ class AOVTest {
 
     @Test
     void getCurrentVerticesColor() {
-        Map<Integer, AOVColorEnum> colorMap = aov.getCurrentVerticesColor();
-        for (int i = 0; i < 4; i++) assertEquals(AOVColorEnum.AVAILABLE, colorMap.get(i));
-        for (int i = 4; i < 7; i++) assertEquals(AOVColorEnum.BLOCKING, colorMap.get(i));
+        Map<Integer, ? extends VertexStatusEnum> colorMap = aov.getCurrentVerticesStatus();
+        for (int i = 0; i < 4; i++) assertEquals(VertexStatusEnum.REACHABLE, colorMap.get(i));
+        for (int i = 4; i < 7; i++) assertEquals(VertexStatusEnum.UNREACHABLE, colorMap.get(i));
     }
 
     Graph getDAG() throws IOException {

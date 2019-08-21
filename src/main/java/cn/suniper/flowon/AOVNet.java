@@ -14,19 +14,19 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author Rao Mengnan
  * on 2019-08-08.
  */
-public class AOV {
+public class AOVNet {
     private Graph graph;
-    private Map<Integer, AOVColorEnum> keepColorMap;
+    private Map<Integer, VertexStatusEnum> keepColorMap;
 
-    public AOV(Graph graph) {
+    public AOVNet(Graph graph) {
         this.graph = graph;
         keepColorMap = new ConcurrentHashMap<>();
 
         for (int index: graph.getTopology()) {
             if (graph.getVertexInDegree()[index] == 0) {
-                keepColorMap.put(index, AOVColorEnum.AVAILABLE);
+                keepColorMap.put(index, VertexStatusEnum.REACHABLE);
             } else {
-                keepColorMap.put(index, AOVColorEnum.BLOCKING);
+                keepColorMap.put(index, VertexStatusEnum.UNREACHABLE);
             }
         }
     }
@@ -36,8 +36,8 @@ public class AOV {
      * note that the passable/passed vertices must be with 0 in degree
      * @return list of {@link Vertex}
      */
-    public List<Vertex> getPassableVertices() {
-        List<Vertex> passable = new ArrayList<>();
+    public List<Vertex> getReachableVertices() {
+        List<Vertex> reachable = new ArrayList<>();
         Map<Integer, Integer> inDegreeReduce = new HashMap<>();
         int[] vertexInitInDegree = this.graph.getVertexInDegree();
 
@@ -45,10 +45,10 @@ public class AOV {
         for (Integer index: graph.getTopology()) {
 
             int newInDegree = vertexInitInDegree[index] - inDegreeReduce.computeIfAbsent(index, k -> 0);
-            // the passable vertex must be with 0 in degree (after remove the passed vertex)
+            // the reachable vertex must be with 0 in degree (after remove the passed vertex)
             if (newInDegree != 0) continue;
 
-            if (keepColorMap.get(index) == AOVColorEnum.PASSED) {
+            if (keepColorMap.get(index) == VertexStatusEnum.PASSED) {
 
                 ArcNode arc = graph.getVertices().get(index).getFirstArc();
                 while (arc != null) {
@@ -59,28 +59,28 @@ public class AOV {
                     arc = arc.getNextArc();
                 }
                 continue;
-            } else if (keepColorMap.get(index) == AOVColorEnum.AVAILABLE) {
-                passable.add(graph.getVertices().get(index));
+            } else if (keepColorMap.get(index) == VertexStatusEnum.REACHABLE) {
+                reachable.add(graph.getVertices().get(index));
                 continue;
-            } else if (keepColorMap.get(index) == AOVColorEnum.BLOCKED) {
-                passable.add(graph.getVertices().get(index));
+            } else if (keepColorMap.get(index) == VertexStatusEnum.BLOCKED) {
+                reachable.add(graph.getVertices().get(index));
                 continue;
             }
-            if (newInDegree == 0) passable.add(graph.getVertices().get(index));
+            reachable.add(graph.getVertices().get(index));
 
         }
-        return passable;
+        return reachable;
     }
 
-    public void markVertex(int index, AOVColorEnum color) {
-        this.keepColorMap.put(index, color);
+    public void markVertex(int index, VertexStatusEnum status) {
+        this.keepColorMap.put(index, status);
     }
 
-    public void updateVerticesColor(Map<Integer, AOVColorEnum> newColor) {
-        keepColorMap.putAll(newColor);
+    public void updateVerticesStatus(Map<Integer, VertexStatusEnum> newVerticesStatus) {
+        keepColorMap.putAll(newVerticesStatus);
     }
 
-    public Map<Integer, AOVColorEnum> getCurrentVerticesColor() {
+    public Map<Integer, ? extends VertexStatusEnum> getCurrentVerticesStatus() {
         return keepColorMap;
     }
 }
