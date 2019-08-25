@@ -5,7 +5,6 @@ import cn.suniper.flowon.dag.Graph;
 import cn.suniper.flowon.dag.Vertex;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -38,13 +37,13 @@ public class AOVNet {
      */
     public List<Vertex> getReachableVertices() {
         List<Vertex> reachable = new ArrayList<>();
-        Map<Integer, Integer> inDegreeReduce = new HashMap<>();
+        int[] inDegreeReduce = new int[this.graph.getVertices().size()];
         int[] vertexInitInDegree = this.graph.getVertexInDegree();
 
         // iterate by topology sorting
         for (Integer index: graph.getTopology()) {
 
-            int newInDegree = vertexInitInDegree[index] - inDegreeReduce.computeIfAbsent(index, k -> 0);
+            int newInDegree = vertexInitInDegree[index] - inDegreeReduce[index];
             // the reachable vertex must be with 0 in degree (after remove the passed vertex)
             if (newInDegree != 0) continue;
 
@@ -52,10 +51,7 @@ public class AOVNet {
 
                 ArcNode arc = graph.getVertices().get(index).getFirstArc();
                 while (arc != null) {
-                    inDegreeReduce.compute(arc.getAdjVex(), (key, old) -> {
-                        if (old == null) old = 0;
-                        return old + 1;
-                    });
+                    inDegreeReduce[arc.getAdjVex()]++;
                     arc = arc.getNextArc();
                 }
                 continue;
@@ -67,7 +63,7 @@ public class AOVNet {
         return reachable;
     }
 
-    public void markVertex(int index, VertexStatusEnum status) {
+        public void markVertex(int index, VertexStatusEnum status) {
         this.keepColorMap.put(index, status);
     }
 
