@@ -63,8 +63,39 @@ public class AOVNet {
         return reachable;
     }
 
-        public void markVertex(int index, VertexStatusEnum status) {
+    public void updateVertexStatus(int index, VertexStatusEnum status) {
         this.keepColorMap.put(index, status);
+    }
+
+    public boolean tryToMarkVertexWithCheck(int index, VertexStatusEnum status) {
+        if (status == VertexStatusEnum.PASSED) {
+            boolean foundPre = false;
+            for (int sortedIndex : this.graph.getTopology()) {
+                if (! foundPre && sortedIndex != index) {
+                    Vertex v = graph.getVertices().get(sortedIndex);
+                    ArcNode arc = v.getFirstArc();
+                    while (arc != null) {
+                        if (arc.getAdjVex() == index) {
+                            foundPre = true;
+                            if (keepColorMap.get(v.getIndex()) != VertexStatusEnum.PASSED) {
+                                return false;
+                            }
+                            break;
+                        }
+                        arc = arc.getNextArc();
+                    }
+
+                }
+            }
+        } else {
+            ArcNode arc = graph.getVertices().get(index).getFirstArc();
+            while (arc != null) {
+                keepColorMap.put(arc.getAdjVex(), VertexStatusEnum.UNREACHABLE);
+                arc = arc.getNextArc();
+            }
+        }
+        this.keepColorMap.put(index, status);
+        return true;
     }
 
     public void updateVerticesStatus(Map<Integer, VertexStatusEnum> newVerticesStatus) {

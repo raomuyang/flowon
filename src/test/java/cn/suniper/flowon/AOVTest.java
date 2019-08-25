@@ -44,8 +44,8 @@ class AOVTest {
         for (Vertex v : vertices) assertEquals("download", v.getAction());
 
         // g-1: download passed => g-1 mapping node available
-        aov.markVertex(0, VertexStatusEnum.PASSED);
-        aov.markVertex(1, VertexStatusEnum.PASSED);
+        aov.updateVertexStatus(0, VertexStatusEnum.PASSED);
+        aov.updateVertexStatus(1, VertexStatusEnum.PASSED);
         vertices = aov.getReachableVertices();
         assertEquals(3, vertices.size());
         for (Vertex v : vertices) {
@@ -54,8 +54,8 @@ class AOVTest {
         }
 
         // g-2: download passed => g-2 mapping node available
-        aov.markVertex(2, VertexStatusEnum.PASSED);
-        aov.markVertex(3, VertexStatusEnum.PASSED);
+        aov.updateVertexStatus(2, VertexStatusEnum.PASSED);
+        aov.updateVertexStatus(3, VertexStatusEnum.PASSED);
         vertices = aov.getReachableVertices();
         assertEquals(2, vertices.size());
         for (Vertex v : vertices) {
@@ -63,8 +63,8 @@ class AOVTest {
         }
 
         // g-1 & g-2 mapping finished => p-1 analysis node available
-        aov.markVertex(4, VertexStatusEnum.PASSED);
-        aov.markVertex(5, VertexStatusEnum.PASSED);
+        aov.updateVertexStatus(4, VertexStatusEnum.PASSED);
+        aov.updateVertexStatus(5, VertexStatusEnum.PASSED);
         vertices = aov.getReachableVertices();
         assertEquals(1, vertices.size());
 
@@ -73,7 +73,7 @@ class AOVTest {
         }
 
         // analysis blocking by mapping
-        aov.markVertex(5, VertexStatusEnum.BLOCKED);
+        aov.updateVertexStatus(5, VertexStatusEnum.BLOCKED);
         vertices = aov.getReachableVertices();
         assertEquals(1, vertices.size());
         for (Vertex v : vertices) {
