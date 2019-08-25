@@ -59,13 +59,8 @@ public class AOVNet {
                     arc = arc.getNextArc();
                 }
                 continue;
-            } else if (keepColorMap.get(index) == VertexStatusEnum.REACHABLE) {
-                reachable.add(graph.getVertices().get(index));
-                continue;
-            } else if (keepColorMap.get(index) == VertexStatusEnum.BLOCKED) {
-                reachable.add(graph.getVertices().get(index));
-                continue;
             }
+
             reachable.add(graph.getVertices().get(index));
 
         }
