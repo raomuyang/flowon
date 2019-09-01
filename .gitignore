@@ -3,3 +3,8 @@
 *.iml
 .vscode
 target
+.classpath
+.project
+.settings
+
+
