@@ -6,7 +6,7 @@ import java.util.List;
  * The Scopes interface is in order to make the way to create a DAG more flexible,
  * through the {@link Scopes#map(Object, String)}, you can define a way to generate a
  * series vertices of DAG from input parameters,
- * and the {@link Scopes#isInclude(String, String)} let you can determines how to
+ * and the {@link Scopes#isInclude(String, String, String)} let you can determines how to
  * describe the inclusion relationship of data URI
  *
  * @author Rao Mengnan
